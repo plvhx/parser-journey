@@ -55,7 +55,7 @@ parser_state_t *parse_buffer(const unsigned char *str) {
                                           : "opening parenthesis");
 
     lexer_dtor(lexer);
-    parser_state_dtor(pst);
+    parser_dtor(pst);
     return NULL;
   }
 
