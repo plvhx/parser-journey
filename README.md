@@ -1,4 +1,4 @@
 ```
 List:
-	- top-down parsing (approach_1)
+	- LL(1) top-down parsing for variable and parenthesis-grouped variable.
 ```
