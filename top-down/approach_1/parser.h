@@ -9,13 +9,15 @@ extern "C" {
 
 typedef struct parser_state {
   ast_t *ast;
-  int num_op;
-  int num_cp;
+  int is_error;
 } parser_state_t;
 
 parser_state_t *parse_buffer(const unsigned char *str);
 void parser_dump(parser_state_t *pst);
 void parser_dtor(parser_state_t *pst);
+
+#define parser_state_is_error(pst) ((pst)->is_error)
+#define parser_state_set_is_error(pst, v) (parser_state_is_error(pst) = (v))
 
 #ifdef __cplusplus
 }

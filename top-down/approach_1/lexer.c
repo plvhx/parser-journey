@@ -15,13 +15,30 @@ void lexer_add(lexer_t *lexer, lexer_val_t *val) {
   if (lexer_head(lexer) == NULL && lexer_tail(lexer) == NULL) {
     lexer_set_head(lexer, val);
     lexer_set_tail(lexer, val);
+
+    // maintain 'next'
+    lexer_set_next(lexer_head(lexer), NULL);
+    lexer_set_next(lexer_tail(lexer), NULL);
+
+    // maintain 'prev'
+    lexer_set_prev(lexer_head(lexer), NULL);
+    lexer_set_prev(lexer_tail(lexer), NULL);
     return;
   }
 
+  // maintain 'next' and 'prev' of the
+  // new node.
+  lexer_set_next(val, NULL);
+  lexer_set_prev(val, lexer_tail(lexer));
+
+  // point tail->next into new node.
   lexer_set_next(lexer_tail(lexer), val);
+  // point tail into new node
   lexer_set_tail(lexer, val);
   return;
 }
+
+void lexer_del(lexer_t *lexer, lexer_val_t *val) { lexer_val_del(lexer, val); }
 
 void lexer_add_value(lexer_t *lexer, token_kind_t token_type) {
   lexer_add(lexer, lexer_val_alloc());
@@ -47,6 +64,31 @@ lexer_val_t *lexer_val_alloc(void) {
   }
 
   return val;
+}
+
+static void __lexer_val_dtor_single(lexer_val_t *val) { free(val); }
+
+void lexer_val_del(lexer_t *lexer, lexer_val_t *val) {
+  // handle 'prev' boundary.
+  if (val->prev == NULL) {
+    val->next->prev = NULL;
+    lexer_set_head(lexer, val->next);
+    goto cleanup;
+  }
+
+  // handle 'next' boundary.
+  if (val->next == NULL) {
+    val->prev->next = NULL;
+    lexer_set_tail(lexer, lexer_tail(lexer) == val->next ? val->prev
+                                                         : lexer_tail(lexer));
+    goto cleanup;
+  }
+
+  val->prev->next = val->next;
+  val->next->prev = val->prev;
+
+cleanup:
+  __lexer_val_dtor_single(val);
 }
 
 void lexer_val_dtor(lexer_val_t *val) {

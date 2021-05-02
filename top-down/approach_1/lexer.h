@@ -19,6 +19,7 @@ typedef struct lexer_val {
     str_t *var;
   } x;
   struct lexer_val *next;
+  struct lexer_val *prev;
 } lexer_val_t;
 
 typedef struct lexer {
@@ -30,10 +31,12 @@ typedef struct lexer {
 
 lexer_t *lexer_alloc(void);
 void lexer_add(lexer_t *lexer, lexer_val_t *val);
+void lexer_del(lexer_t *lexer, lexer_val_t *val);
 void lexer_add_value(lexer_t *lexer, token_kind_t token_type);
 void lexer_dtor(lexer_t *lexer);
 
 lexer_val_t *lexer_val_alloc(void);
+void lexer_val_del(lexer_t *lexer, lexer_val_t *val);
 void lexer_val_dtor(lexer_val_t *val);
 
 #define lexer_head(lex) ((lex)->head)
@@ -44,6 +47,9 @@ void lexer_val_dtor(lexer_val_t *val);
 
 #define lexer_get_next(lex) ((lex)->next)
 #define lexer_set_next(lex, v) (lexer_get_next(lex) = (v))
+
+#define lexer_get_prev(lex) ((lex)->prev)
+#define lexer_set_prev(lex, v) (lexer_get_prev(lex) = (v))
 
 #define lexer_rewind_tail(lex) (lexer_tail(lex) = lexer_head(lex))
 
