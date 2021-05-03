@@ -59,6 +59,9 @@ void str_val_dtor(str_val_t *val);
 
 #define str_rewind_tail(s) (str_tail(s) = str_head(s))
 
+#define str_for_each_self(s) \
+	for (str_rewind_tail(s); str_tail(s) != NULL; str_set_tail(s, str_tail(s)->next))
+
 #ifdef __cplusplus
 }
 #endif

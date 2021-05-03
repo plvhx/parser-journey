@@ -8,15 +8,15 @@ extern "C" {
 #define STR_MAX_LEN 256
 
 typedef struct str_val {
-	unsigned int len;
-	unsigned char buf[STR_MAX_LEN + 1];
-	struct str_val *next;
+  unsigned int len;
+  unsigned char buf[STR_MAX_LEN + 1];
+  struct str_val *next;
 } str_val_t;
 
 typedef struct str {
-	unsigned int index;
-	str_val_t *head;
-	str_val_t *tail;
+  unsigned int index;
+  str_val_t *head;
+  str_val_t *tail;
 } str_t;
 
 #define str_get_index(s) ((s)->index)
@@ -40,8 +40,8 @@ typedef struct str {
 
 #define str_tail_get_len(s) (str_tail(s)->len)
 #define str_tail_set_len(s, v) (str_tail_get_len(s) = (v))
-#define str_tail_dec_len(s, v) (str_tail_get_len(s)--)
-#define str_tail_inc_len(s, v) (str_tail_get_len(s)++)
+#define str_tail_dec_len(s) (str_tail_get_len(s)--)
+#define str_tail_inc_len(s) (str_tail_get_len(s)++)
 
 #define str_tail_get_buf(s) (str_tail(s)->buf)
 #define str_tail_get_buf_at(s, i) (str_tail_get_buf(s)[(i)])
@@ -61,6 +61,9 @@ typedef struct str {
 
 #define str_adv_curr(s) (str_adv_tail(s))
 #define str_curr_next(s) (str_next_tail(s))
+
+#define str_for_each_self(s)                                                   \
+  for (str_rewind_tail(s); str_tail(s) != NULL; str_adv_tail(s))
 
 str_val_t *str_val_alloc(void);
 void str_val_dtor(str_val_t *val);

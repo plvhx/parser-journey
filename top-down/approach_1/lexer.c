@@ -79,7 +79,7 @@ void lexer_val_del(lexer_t *lexer, lexer_val_t *val) {
   // handle 'next' boundary.
   if (val->next == NULL) {
     val->prev->next = NULL;
-    lexer_set_tail(lexer, lexer_tail(lexer) == val->next ? val->prev
+    lexer_set_tail(lexer, lexer_tail(lexer) == val ? val->prev
                                                          : lexer_tail(lexer));
     goto cleanup;
   }
