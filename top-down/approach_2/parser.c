@@ -84,7 +84,7 @@ static void parse_addition_expr(parser_t *parser, lexer_t *lexer) {
   ast_t *first_op = parser_get_ast(parser);
 
   // create ast object for '+' operator.
-  ast_t *operator= ast_create(AST_ARITHMETIC_ADD);
+  ast_t *operator = ast_create(AST_ARITHMETIC_ADD);
 
   // merge collected ast into one
   // expression
