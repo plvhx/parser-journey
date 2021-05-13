@@ -75,6 +75,13 @@ typedef struct lexer {
   for (lexer_rewind_tail(l); lexer_tail(l) != NULL;                            \
        lexer_set_tail(l, lexer_tail_adv(l)))
 
+#define lexer_peek(l)                                                          \
+  do {                                                                         \
+    if (lexer_get_next(l) == NULL)                                             \
+      (NULL);                                                                  \
+    (lexer_get_next(l));                                                       \
+  } while (0)
+
 lexer_val_t *lexer_val_alloc(void);
 void lexer_val_del(lexer_t *lexer, lexer_val_t *val);
 void lexer_val_dtor(lexer_val_t *val);

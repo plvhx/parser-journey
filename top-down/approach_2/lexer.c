@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 lexer_val_t *lexer_val_alloc(void) {
@@ -14,6 +15,11 @@ lexer_val_t *lexer_val_alloc(void) {
 static void __lexer_val_dtor_single(lexer_val_t *val) { free(val); }
 
 void lexer_val_del(lexer_t *lexer, lexer_val_t *val) {
+  // immediately return if val->next = val->prev = NULL
+  if (lexer_get_next(val) == NULL && lexer_get_prev(val) == NULL) {
+    return;
+  }
+
   // handle 'prev' boundary
   if (lexer_get_prev(val) == NULL) {
     lexer_set_prev(lexer_get_next(val), NULL);

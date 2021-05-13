@@ -10,6 +10,7 @@ extern "C" {
 typedef struct parser {
   ast_t *ast;
   int is_error;
+  int is_scoped_expr;
 } parser_t;
 
 parser_t *parser_alloc(void);
@@ -26,6 +27,9 @@ void parser_dtor(parser_t *parser);
 
 #define parser_is_error(p) ((p)->is_error)
 #define parser_set_is_error(p, v) (parser_is_error(p) = (v))
+
+#define parser_is_scoped_expr(p) ((p)->is_scoped_expr)
+#define parser_set_is_scoped_expr(p, v) (parser_is_scoped_expr(p) = (v))
 
 #ifdef __cplusplus
 }

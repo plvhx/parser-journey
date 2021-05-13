@@ -7,7 +7,8 @@ PARSER_OBJS = \
 	$(PARSER_DIR)/lexer.o \
 	$(PARSER_DIR)/main.o \
 	$(PARSER_DIR)/parser.o \
-	$(PARSER_DIR)/str.o
+	$(PARSER_DIR)/str.o \
+	$(PARSER_DIR)/token_stack.o
 
 all: $(PARSER_OBJS)
 	$(CC) $(CFLAGS) -o parser $(PARSER_OBJS)
@@ -19,6 +20,7 @@ clean:
 		$(PARSER_DIR)/main.o \
 		$(PARSER_DIR)/parser.o \
 		$(PARSER_DIR)/str.o \
+		$(PARSER_DIR)/token_stack.o \
 		$(PARSER_DIR)/parser
 
 $(PARSER_DIR)/ast.o: $(PARSER_DIR)/ast.c
@@ -34,6 +36,9 @@ $(PARSER_DIR)/parser.o: $(PARSER_DIR)/parser.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(PARSER_DIR)/str.o: $(PARSER_DIR)/str.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(PARSER_DIR)/token_stack.o: $(PARSER_DIR)/token_stack.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: all clean

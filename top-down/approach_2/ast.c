@@ -90,13 +90,13 @@ void ast_dtor(ast_t *ast) {
 static void ast_dump_kind(ast_t *ast) {
   switch (ast_get_kind(ast)) {
   case AST_VARIABLE:
-    printf("(variable)\n");
+    printf("(variable, nspaces: %d)\n", ast_get_num_spaces(ast));
     break;
   case AST_EXPR:
-    printf("(expression)\n");
+    printf("(expression, nspaces: %d)\n", ast_get_num_spaces(ast));
     break;
   case AST_ARITHMETIC_ADD:
-    printf("(arithmetic-add)\n");
+    printf("(arithmetic-add, nspaces: %d)\n", ast_get_num_spaces(ast));
     break;
   }
 }
@@ -104,6 +104,10 @@ static void ast_dump_kind(ast_t *ast) {
 void ast_dump(ast_t *ast) {
   if (ast == NULL) {
     return;
+  }
+
+  for (int i = 0; i < ast_get_num_spaces(ast); i++) {
+    printf(" ");
   }
 
   ast_dump_kind(ast);
